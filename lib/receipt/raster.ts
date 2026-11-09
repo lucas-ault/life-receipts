@@ -246,6 +246,10 @@ export function renderReceipt(document: ReceiptDocument, width: number) {
         if (lineIndex === 0) addText(item.dueLabel, pad + inner, mono(dueSize, true), "right");
         advance(titleSize, 1.25);
       });
+      if (item.author) {
+        addText(item.author, textX, serif(wide ? 15 : 13), "left");
+        advance(wide ? 15 : 13, 1.2);
+      }
       y = Math.max(y, rowTop + box);
       y += 8;
     }
@@ -387,6 +391,10 @@ export function renderTicket(ticket: BoardTicket, width: number) {
   }
   textY += 8;
   pushLine(ticket.due, mono(dueSize), dueSize, 1.3);
+  if (ticket.from) {
+    textY += 4;
+    pushLine(ticket.from, italic(dueSize), dueSize, 1.2);
+  }
 
   const captionSize = wide ? 12 : 11;
   const captionFont = mono(captionSize);

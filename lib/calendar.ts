@@ -3,7 +3,7 @@ import "server-only";
 import { fetchTimeout } from "./http";
 import { decrypt } from "./crypto";
 import { getSettings } from "./store";
-import { formatClock } from "./time";
+import { dayRange, formatClock } from "./time";
 import type { ReceiptEvent } from "./receipt/types";
 
 type TokenResponse = {
@@ -88,6 +88,7 @@ async function calendarGet(path: string) {
   const run = async (force: boolean) => {
     const token = await getAccessToken(force);
     return fetchTimeout(`https://www.googleapis.com/calendar/v3${path}`, {
+      cache: "no-store",
       headers: { authorization: `Bearer ${token}` },
     });
   };
@@ -160,6 +161,13 @@ function compactRange(start: Date, end: Date, timeZone: string) {
     return `${startText}–${endText} ${to.dayPeriod}`;
   }
   return `${startText} ${from.dayPeriod}–${endText} ${to.dayPeriod}`;
+}
+
+export async function refreshTodayCalendar(now = new Date()) {
+  const settings = getSettings();
+  if (!settings.googleRefreshToken || !settings.selectedCalendarId) return;
+  const range = dayRange(now, settings.timezone);
+  await listEvents(settings.selectedCalendarId, range.start, range.end, settings.timezone);
 }
 
 /** Events between two instants. A wider window can feed a later look-ahead section. */

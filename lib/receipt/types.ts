@@ -29,6 +29,7 @@ export type ReceiptTodo = {
   title: string;
   dueLabel: string;
   status: "new" | "in_progress";
+  author: string | null;
 };
 
 export type ReceiptDocument = {

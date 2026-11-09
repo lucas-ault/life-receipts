@@ -1,5 +1,6 @@
 import { errorResponse } from "@/lib/api";
 import { isRole } from "@/lib/access";
+import { refreshTodayCalendar } from "@/lib/calendar";
 import { verifyPassword } from "@/lib/crypto";
 import { asRecord, HttpError, readJson } from "@/lib/http";
 import { setSession } from "@/lib/session";
@@ -22,6 +23,13 @@ export async function POST(request: Request) {
       throw new HttpError("That sign-in doesn’t match.", 401);
     }
     await setSession({ uid: user.id, role: user.role });
+    if (user.role === "owner") {
+      try {
+        await refreshTodayCalendar();
+      } catch (error) {
+        console.error("Calendar refresh on sign-in failed:", error instanceof Error ? error.message : error);
+      }
+    }
     return Response.json({ ok: true, role: user.role });
   } catch (error) {
     return errorResponse(error);

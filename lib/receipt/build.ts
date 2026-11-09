@@ -2,8 +2,9 @@ import "server-only";
 
 import { listEvents } from "@/lib/calendar";
 import { fetchHeadlines } from "@/lib/news";
+import { noteAuthor } from "@/lib/note-author";
 import { householdTodoUrl } from "@/lib/origin";
-import { getSettings, listOpenTodos, listPendingNotes, listPlaces } from "@/lib/store";
+import { getSettings, listOpenTodos, listPendingNotes, listPlaces, listUsers } from "@/lib/store";
 import { dateKey, dayRange, daysBetweenKeys, formatLongDate, todoDueLabel } from "@/lib/time";
 import { fetchForecasts } from "@/lib/weather";
 import type { ReceiptDocument, ReceiptEvent } from "./types";
@@ -12,6 +13,7 @@ export async function buildReceipt(now = new Date()): Promise<{ document: Receip
   const settings = getSettings();
   const placeList = listPlaces();
   const pending = listPendingNotes();
+  const names = new Map(listUsers().map((person) => [person.id, person.name]));
   const slipDay = dateKey(now, settings.timezone);
   const dayIndex = Math.max(0, daysBetweenKeys(dateKey(new Date(), settings.timezone), slipDay));
   const [weather, headlines, eventsResult] = await Promise.all([
@@ -37,11 +39,12 @@ export async function buildReceipt(now = new Date()): Promise<{ document: Receip
       events: eventsResult.events,
       eventsLabel: dayIndex > 0 ? "Tomorrow" : "Today",
       eventsError: eventsResult.error,
-      notes: pending.map((note) => ({ author: note.author, body: note.body })),
+      notes: pending.map((note) => ({ author: noteAuthor(note, names), body: note.body })),
       todos: listOpenTodos().map((todo) => ({
         title: todo.title,
         dueLabel: todoDueLabel(todo.dueDate, slipDay),
         status: todo.status === "in_progress" ? ("in_progress" as const) : ("new" as const),
+        author: todo.createdBy ? (names.get(todo.createdBy) ?? null) : null,
       })),
       todoUrl: householdTodoUrl(),
       showWeatherCredit: placeList.some((place) => place.weatherEnabled),

@@ -5,11 +5,12 @@ export type BoardTicket = {
   title: string;
   description: string;
   due: string;
+  from: string;
   url: string;
 };
 
 export function todoBoardTicket(
-  todo: { id: number; title: string; description: string; dueDate: string },
+  todo: { id: number; title: string; description: string; dueDate: string; author?: string | null },
   origin: string,
 ): BoardTicket {
   return {
@@ -17,6 +18,7 @@ export function todoBoardTicket(
     title: todo.title,
     description: todo.description.replace(/\s+/g, " ").trim(),
     due: `Due ${formatMonthDay(todo.dueDate)}`,
+    from: todo.author?.trim() ?? "",
     url: `${origin.replace(/\/$/, "")}/todos/${todo.id}`,
   };
 }

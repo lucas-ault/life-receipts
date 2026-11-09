@@ -9,8 +9,9 @@ export async function POST(request: Request) {
   if (denied) return denied;
   try {
     const user = await currentUser();
-    const note = parseNote(asRecord(await readJson(request)));
-    insertNote({ ...note, author: note.author ?? user?.name ?? null, source: "admin" });
+    if (!user) return Response.json({ error: "Sign in required." }, { status: 401 });
+    const { body } = parseNote({ body: asRecord(await readJson(request)).body });
+    insertNote({ author: user.name, userId: user.id, body, source: "admin" });
     return Response.json({ ok: true });
   } catch (error) {
     return errorResponse(error);

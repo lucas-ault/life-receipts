@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS places (
 CREATE TABLE IF NOT EXISTS notes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author TEXT,
+  user_id INTEGER,
   body TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'pending',
   source TEXT NOT NULL,
@@ -119,6 +120,7 @@ export function getDb() {
   }
   globalForDb.roundupSqlite.exec(SCHEMA);
   ensureTodoColumns(globalForDb.roundupSqlite);
+  ensureNoteColumns(globalForDb.roundupSqlite);
   ensureOwner(globalForDb.roundupSqlite);
   return globalForDb.roundupDb;
 }
@@ -129,6 +131,11 @@ function ensureTodoColumns(sqlite: Database.Database) {
   if (!names.has("card_printed_at")) sqlite.exec("ALTER TABLE todos ADD COLUMN card_printed_at INTEGER");
   if (!names.has("description")) sqlite.exec("ALTER TABLE todos ADD COLUMN description TEXT NOT NULL DEFAULT ''");
   if (!names.has("created_by")) sqlite.exec("ALTER TABLE todos ADD COLUMN created_by INTEGER");
+}
+
+function ensureNoteColumns(sqlite: Database.Database) {
+  const columns = sqlite.prepare("PRAGMA table_info(notes)").all() as Array<{ name: string }>;
+  if (!columns.some((column) => column.name === "user_id")) sqlite.exec("ALTER TABLE notes ADD COLUMN user_id INTEGER");
 }
 
 function ensureOwner(sqlite: Database.Database) {

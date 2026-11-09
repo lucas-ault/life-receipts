@@ -95,6 +95,7 @@ export function deleteUser(id: number) {
   const db = getDb();
   const now = Date.now();
   db.update(todos).set({ createdBy: null, updatedAt: now }).where(eq(todos.createdBy, id)).run();
+  db.update(notes).set({ userId: null }).where(eq(notes.userId, id)).run();
   db.update(todoNotes).set({ userId: null }).where(eq(todoNotes.userId, id)).run();
   db.delete(users).where(eq(users.id, id)).run();
 }
@@ -103,7 +104,7 @@ export function listPendingNotes(): Note[] {
   return getDb().select().from(notes).where(eq(notes.status, "pending")).orderBy(asc(notes.createdAt)).all();
 }
 
-export function insertNote(note: { author: string | null; body: string; source: "admin" | "public" }) {
+export function insertNote(note: { author: string | null; userId?: number | null; body: string; source: "admin" | "public" }) {
   const result = getDb()
     .insert(notes)
     .values({ ...note, status: "pending", createdAt: Date.now() })

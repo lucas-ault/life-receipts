@@ -1,15 +1,17 @@
 import { headers } from "next/headers";
 import { NoteManager } from "@/components/note-manager";
+import { noteAuthor } from "@/lib/note-author";
 import { currentUser } from "@/lib/session";
-import { getSettings, listPendingNotes } from "@/lib/store";
+import { getSettings, listPendingNotes, listUsers } from "@/lib/store";
 
 export const metadata = { title: "Notes" };
 
 export default async function NotesPage() {
   const settings = getSettings();
+  const names = new Map(listUsers().map((person) => [person.id, person.name]));
   const notes = listPendingNotes().map((note) => ({
     id: note.id,
-    author: note.author,
+    author: noteAuthor(note, names),
     body: note.body,
     source: note.source,
     createdAt: note.createdAt,
@@ -25,7 +27,7 @@ export default async function NotesPage() {
     <>
       <h1 className="font-serif text-4xl tracking-tight">Notes</h1>
       <p className="mt-3 max-w-xl text-muted">Notes stay on the slip until a print succeeds.</p>
-      <NoteManager notes={notes} shareUrl={shareUrl} canManage={canManage} />
+      <NoteManager notes={notes} shareUrl={shareUrl} canManage={canManage} authorName={user?.name ?? ""} />
     </>
   );
 }

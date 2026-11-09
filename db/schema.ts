@@ -34,6 +34,7 @@ export const places = sqliteTable("places", {
 export const notes = sqliteTable("notes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   author: text("author"),
+  userId: integer("user_id"),
   body: text("body").notNull(),
   status: text("status").notNull().default("pending"),
   source: text("source").notNull(),

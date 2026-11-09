@@ -189,6 +189,7 @@ function Column({
               <button type="button" className="w-full border border-ink/15 bg-paper px-3 py-3 text-left" onClick={() => onOpen(todo.id)}>
                 <span className="block font-serif text-xl leading-tight">{todo.title}</span>
                 {todo.description ? <span className="mt-1 block text-sm text-muted">{todo.description}</span> : null}
+                {todo.authorName ? <span className="mt-1 block text-sm text-muted">{todo.authorName}</span> : null}
                 <span className={overdue ? "mt-2 block text-sm text-stamp" : "mt-2 block text-sm text-muted"}>
                   {overdue ? "Overdue · " : ""}
                   {todo.dueDate}

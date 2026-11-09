@@ -23,7 +23,7 @@ flowchart TD
 
 Members who ask for another page are sent to `/todos`. Owner-only APIs return 403. A member can add a note, add a to-do, and comment on a to-do they are allowed to see. They can edit or remove a to-do only while it is still pending and they created it.
 
-The unlisted `/p/[token]` page does not use an account. It accepts a few notes per address and shows notes that have not printed yet.
+The unlisted `/p/[token]` page does not use an account. It accepts a few notes per address and shows notes that have not printed yet. A note or to-do from a signed-in person uses that account’s name. The shared page keeps the name the visitor types.
 
 ## To-dos
 

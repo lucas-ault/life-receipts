@@ -91,7 +91,7 @@ Calendar is optional. These are the Cloud steps. The pictures in this guide stay
 5. Put the client id and secret in `.env` as `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
 6. Restart so the container picks up `.env`: `docker compose up -d`.
 7. Open Calendar and connect. The scope is calendar read-only.
-8. Pick one calendar. The slip lists that calendar’s events for the local day.
+8. Pick one calendar. The slip lists that calendar’s events for the local day. Google is asked again each time a slip is drawn, including the morning print just before the image is sent, and again when the owner signs in.
 
 ![Calendar](docs/images/calendar.png)
 
@@ -99,7 +99,7 @@ Changing `APP_URL` later means adding the new redirect URI in Google Cloud befor
 
 ## Notes
 
-Notes stay on the slip until a print succeeds. The owner, someone else with an account, and anyone with the shared link can add one.
+Notes stay on the slip until a print succeeds. The owner, someone else with an account, and anyone with the shared link can add one. A note from a signed-in person prints that account’s name. The shared page still asks for a name, because that visitor has no account.
 
 ![Notes](docs/images/notes.png)
 
@@ -127,7 +127,7 @@ A to-do they add stays in Pending until the owner approves it. Pending items sta
 
 ## To-dos
 
-The board has Pending, New, In progress, and Done. Open items stay on the slip past their due date. Done items leave the slip. On a phone, one column shows at a time.
+The board has Pending, New, In progress, and Done. Open items stay on the slip past their due date. Done items leave the slip. On a phone, one column shows at a time. Each to-do uses the account name of the person who added it, on the board, the slip, and the tear-off card.
 
 ![To-dos](docs/images/todos.png)
 

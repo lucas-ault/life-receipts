@@ -11,7 +11,17 @@ type NoteItem = {
   createdAt: number;
 };
 
-export function NoteManager({ notes, shareUrl, canManage }: { notes: NoteItem[]; shareUrl: string; canManage: boolean }) {
+export function NoteManager({
+  notes,
+  shareUrl,
+  canManage,
+  authorName,
+}: {
+  notes: NoteItem[];
+  shareUrl: string;
+  canManage: boolean;
+  authorName: string;
+}) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
@@ -20,6 +30,7 @@ export function NoteManager({ notes, shareUrl, canManage }: { notes: NoteItem[];
     <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <section>
         <h2 className="font-serif text-2xl">Write a note</h2>
+        {authorName ? <p className="mt-2 text-sm text-muted">This prints as {authorName}.</p> : null}
         <form
           className="mt-4 flex flex-col gap-5"
           onSubmit={async (event) => {
@@ -31,7 +42,7 @@ export function NoteManager({ notes, shareUrl, canManage }: { notes: NoteItem[];
             const response = await fetch("/api/notes", {
               method: "POST",
               headers: { "content-type": "application/json" },
-              body: JSON.stringify({ author: data.get("author"), body: data.get("body") }),
+              body: JSON.stringify({ body: data.get("body") }),
             });
             const payload = (await response.json().catch(() => ({}))) as { error?: string };
             setPending(false);
@@ -43,10 +54,6 @@ export function NoteManager({ notes, shareUrl, canManage }: { notes: NoteItem[];
             router.refresh();
           }}
         >
-          <label className="field">
-            <span>Name</span>
-            <input name="author" maxLength={40} placeholder="Optional" />
-          </label>
           <label className="field">
             <span>Note</span>
             <textarea name="body" maxLength={500} required />

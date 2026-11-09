@@ -11,6 +11,7 @@ import {
   finishJob,
   getSettings,
   getTodo,
+  getUser,
   insertJob,
   listUnprintedTodoCards,
   markNotesPrinted,
@@ -69,7 +70,8 @@ async function printUnprintedTodoCards(settings: Settings) {
 }
 
 async function sendTodoCard(settings: Settings, todo: Todo) {
-  const ticket = todoBoardTicket(todo, householdOrigin());
+  const author = todo.createdBy ? (getUser(todo.createdBy)?.name ?? null) : null;
+  const ticket = todoBoardTicket({ ...todo, author }, householdOrigin());
   const rendered = renderTicket(ticket, paperDots(settings.paperWidth));
   await sendRaw(settings.printerHost, settings.printerPort, rgbaToEscPos(rendered.rgba, rendered.width, rendered.height));
 }
