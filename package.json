@@ -1,0 +1,36 @@
+{
+  "name": "life-receipts",
+  "version": "0.1.0",
+  "private": false,
+  "description": "A self-hosted morning slip: calendar, weather, headlines, notes, and to-dos, printed to a receipt printer.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "1.1.0",
+    "better-sqlite3": "13.0.3",
+    "drizzle-orm": "0.45.4",
+    "next": "16.4.5",
+    "qrcode": "^1.5.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "22.19.1",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "tailwindcss": "4.3.5",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0"
+  }
+}

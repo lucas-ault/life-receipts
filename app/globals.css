@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-hanken), ui-sans-serif, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex), ui-monospace, monospace;
+  --color-ink: #1c1712;
+  --color-muted: #6e645b;
+  --color-paper: #f7f3ec;
+  --color-desk: #e6d9c8;
+  --color-line: #d4c6b4;
+  --color-stamp: #8d2e22;
+  --color-stamp-dark: #6d2219;
+}
+
+html {
+  background: var(--color-desk);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-ink);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(255, 252, 247, 0.7), transparent 55%),
+    var(--color-desk);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-stamp);
+  outline-offset: 3px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font: inherit;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-stamp {
+  background: var(--color-stamp);
+  color: #f7f3ec;
+}
+
+.btn-stamp:hover:not(:disabled) {
+  background: var(--color-stamp-dark);
+}
+
+.btn-quiet {
+  background: transparent;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.btn-quiet:hover:not(:disabled) {
+  background: rgba(28, 23, 18, 0.05);
+}
+
+.btn-text {
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.field span,
+.field-label {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-bottom: 1px solid var(--color-ink);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 8px 0;
+}
+
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-stamp);
+}
+
+.slip {
+  width: min(100%, 420px);
+  background: white;
+  box-shadow: 0 24px 60px rgba(36, 28, 23, 0.14);
+}
+
+.error {
+  color: var(--color-stamp);
+}
