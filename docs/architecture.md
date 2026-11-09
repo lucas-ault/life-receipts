@@ -1,6 +1,10 @@
 # Architecture
 
-Life receipts runs as one Next.js process beside the printer. SQLite is the only database. The morning loop, the receipt image, and the ESC/POS socket all live in that process. A tunnel, when you add one, forwards HTTPS to this process. It does not move printing off the LAN.
+Life Receipts runs as one Next.js process beside the printer. SQLite is the only database, in `./data` on the host, bind-mounted into the container. The morning loop, the receipt image, and the ESC/POS socket all live in that process. A tunnel, when you add one, forwards HTTPS to this process. It does not move printing off the LAN.
+
+![Morning slip](images/slip-full.png)
+
+![To-do board](images/todos.png)
 
 ## Sign-in
 
@@ -34,13 +38,15 @@ flowchart LR
   pending -.->|excluded| slip
 ```
 
-Pending items are not part of the morning slip and do not get a tear-off card. Approving a to-do sets it to new, which leaves `card_printed_at` empty so the next successful roundup prints the card. Printing a card at creation is owner-only and still refuses a pending item.
+Pending items are not part of the morning slip and do not get a tear-off card. Approving a to-do sets it to new, which leaves `card_printed_at` empty so the next successful morning slip prints the card. Printing a card at creation is owner-only and still refuses a pending item.
+
+![Tear-off card](images/card-6.png)
 
 The board and `/todos/[id]` use the same card editor. The code on a tear-off card opens `/todos/[id]`. On a phone that path comes back through sign-in and returns to the card.
 
 ## Print pipeline
 
-A scheduled or manual roundup builds one receipt, sends it, marks the captured notes printed, and records the job as successful. It then prints one ticket per approved to-do that has never had a card. A ticket failure is logged and, for a manual print, shown to the owner. It does not reopen the roundup job.
+A scheduled or manual print builds one receipt, sends it, marks the captured notes printed, and records the job as successful. It then prints one ticket per approved to-do that has never had a card. A ticket failure is logged and, for a manual print, shown to the owner. It does not reopen the slip job.
 
 ```mermaid
 flowchart TD
@@ -52,7 +58,9 @@ flowchart TD
   cards --> ticket[TitleDescriptionDueAndQr]
 ```
 
-The ticket lays the title, short description, and due date on the left. The code sits on the right, with “Scan to update” under it. The roundup slip still lists open to-dos as a title and a due label, and its own code appears only when that list is not empty.
+The ticket lays the title, short description, and due date on the left. The code sits on the right, with “Scan to update” under it. The morning slip still lists open to-dos as a title and a due label, and its own code appears only when that list is not empty.
+
+![Slip with no open to-dos](images/slip-clear.png)
 
 ## Data
 
@@ -66,7 +74,7 @@ The ticket lays the title, short description, and due date on the left. The code
 | todo_notes | Longer notes on a to-do card |
 | print_jobs | One row per print attempt |
 
-`lib/db.ts` applies this shape on startup, including columns added after the first run. The file is `data/roundup.sqlite`.
+`lib/db.ts` applies this shape on startup, including columns added after the first run. The file is `data/roundup.sqlite`, bind-mounted from `./data` so it survives container restarts and image rebuilds.
 
 ## Hosts
 

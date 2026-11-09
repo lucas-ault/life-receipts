@@ -13,7 +13,7 @@ export default async function PublicNotePage({ params }: { params: Promise<{ tok
   const notes = listPendingNotes();
   return (
     <div className="mx-auto max-w-md px-5 py-16">
-      <p className="font-serif text-3xl italic">Roundup</p>
+      <p className="font-serif text-3xl italic">Life Receipts</p>
       <h1 className="mt-8 font-serif text-4xl tracking-tight">Leave a note</h1>
       <p className="mt-3 text-muted">It prints on the next morning slip.</p>
       <PublicNoteForm token={token} />

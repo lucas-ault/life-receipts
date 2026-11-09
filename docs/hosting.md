@@ -15,7 +15,7 @@ TUNNEL_TOKEN=the-token-from-the-dashboard
 APP_URL=https://receipts.ault.cc
 ```
 
-Leave `APP_URL` at `http://localhost:3000` when you are only running `npm run dev` on the machine. The token is not required for that.
+For everyday use, `APP_URL` is this computer’s LAN address, as in the README. Use `http://localhost:3000` only when you are developing with `npm run dev`. The token is not required until you start the tunnel.
 
 ## 2. Route the hostname
 

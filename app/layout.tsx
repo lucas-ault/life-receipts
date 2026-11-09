@@ -21,8 +21,8 @@ const mono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Roundup",
-    template: "%s · Roundup",
+    default: "Life Receipts",
+    template: "%s · Life Receipts",
   },
   description: "A morning slip for the receipt printer.",
   robots: { index: false, follow: false },

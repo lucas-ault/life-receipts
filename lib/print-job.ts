@@ -41,7 +41,7 @@ export async function printRoundup(trigger: "schedule" | "manual") {
     } catch (error) {
       console.error("To-do cards did not finish printing:", error instanceof Error ? error.message : error);
       if (trigger === "manual") {
-        throw new HttpError("The roundup printed, but a to-do card did not. The rest will print with the next roundup.");
+        throw new HttpError("The slip printed, but a to-do card did not. The rest will print with the next morning slip.");
       }
     }
   });

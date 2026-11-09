@@ -70,7 +70,7 @@ export function PrinterForm({ values, timeZones }: { values: PrinterValues; time
         <span>Printer address</span>
         <input name="printerHost" defaultValue={values.printerHost} placeholder="192.168.10.46" autoComplete="off" spellCheck={false} />
       </label>
-      <p className="-mt-4 text-sm text-muted">Port 9100 is the usual raw port. This network’s printer is at 192.168.10.46.</p>
+      <p className="-mt-4 text-sm text-muted">Port 9100 is the usual raw port for a receipt printer on the local network.</p>
       <label className="field">
         <span>Port</span>
         <input name="printerPort" defaultValue={values.printerPort} inputMode="numeric" />

@@ -1,3 +1,6 @@
+# The household database and session secret live in ./data on the host.
+# Restarting, docker compose down, and rebuilding the image all keep that folder.
+# Do not switch this to a named volume: docker compose down -v would delete it.
 services:
   life-receipts:
     build: .

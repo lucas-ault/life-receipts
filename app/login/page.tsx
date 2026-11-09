@@ -12,7 +12,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   if (await currentUser()) redirect(nextPath);
   return (
     <div className="mx-auto max-w-md px-5 py-16">
-      <p className="font-serif text-3xl italic">Roundup</p>
+      <p className="font-serif text-3xl italic">Life Receipts</p>
       <h1 className="mt-8 font-serif text-4xl tracking-tight">Sign in</h1>
       <LoginForm nextPath={nextPath} />
     </div>

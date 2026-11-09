@@ -116,7 +116,7 @@ export function renderReceipt(document: ReceiptDocument, width: number) {
     return bits.join(" · ");
   };
 
-  center("Roundup", italic(wide ? 48 : 38), wide ? 48 : 38);
+  center("Life Receipts", italic(wide ? 42 : 32), wide ? 42 : 32);
   y += 2;
   center(document.dateLabel, serif(wide ? 18 : 16, 500), wide ? 18 : 16);
   y += 14;

@@ -95,8 +95,8 @@ export function TodoBoard({
               </label>
               <p className="text-sm text-muted">
                 {canPrint
-                  ? "Leave this off and the card prints after the next roundup."
-                  : "Add a printer to print a card now. Otherwise it waits for the next roundup."}
+                  ? "Leave this off and the card prints after the next morning slip."
+                  : "Add a printer to print a card now. Otherwise it waits for the next morning slip."}
               </p>
             </>
           ) : (

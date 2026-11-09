@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       await printTodoCard(id);
     } catch (error) {
       const message = error instanceof HttpError ? error.message : "The card did not print.";
-      return Response.json({ ok: true, id, status, printError: `${message} It will print with the next roundup.` });
+      return Response.json({ ok: true, id, status, printError: `${message} It will print with the next morning slip.` });
     }
     return Response.json({ ok: true, id, status });
   } catch (error) {

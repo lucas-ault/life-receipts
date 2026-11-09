@@ -28,7 +28,7 @@ export function Shell({ role, children }: { role: Role; children: React.ReactNod
       <header className="border-b border-ink/15">
         <div className="mx-auto flex max-w-5xl flex-wrap items-baseline justify-between gap-x-8 gap-y-3 px-5 py-5">
           <Link href={role === "owner" ? "/" : "/todos"} className="font-serif text-3xl italic leading-none tracking-tight">
-            Roundup
+            Life Receipts
           </Link>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <nav className="flex flex-wrap gap-x-5 gap-y-1 text-sm">

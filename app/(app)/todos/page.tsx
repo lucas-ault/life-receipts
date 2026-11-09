@@ -43,7 +43,7 @@ export default async function TodosPage() {
       <h1 className="font-serif text-4xl tracking-tight">To-dos</h1>
       <p className="mt-3 max-w-xl text-muted">
         {user.role === "owner"
-          ? "Open items stay on the slip past their due date. Pending items wait until you approve them. Each approved one prints as its own card after the next roundup, unless you print it when you add it."
+          ? "Open items stay on the slip past their due date. Pending items wait until you approve them. Each approved one prints as its own card after the next morning slip, unless you print it when you add it."
           : "Add a to-do here. It stays pending until the owner approves it, then it can print on the morning slip."}
       </p>
       {user.role === "owner" ? <p className="mt-3 break-all font-mono text-sm text-muted">{householdTodoUrl()}</p> : null}
