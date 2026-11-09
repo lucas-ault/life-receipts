@@ -35,11 +35,14 @@ Set `APP_URL` in `.env` to the address you will open in a browser, including the
 APP_URL=http://192.168.1.20:3000
 ```
 
-Phones and the codes printed on the paper use that address. Then build and start:
+Phones and the codes printed on the paper use that address. Then pull the published image and start:
 
 ```bash
-docker compose up --build -d
+docker compose pull
+docker compose up -d
 ```
+
+The image is [ghcr.io/lucas-ault/life-receipts](https://github.com/lucas-ault/life-receipts/pkgs/container/life-receipts). `docker compose up --build -d` builds from this checkout instead.
 
 Open `http://192.168.1.20:3000`. The first visit asks you to create the owner: a display name, a username, a password, the same password again, a timezone, and Fahrenheit or Celsius.
 
@@ -63,7 +66,7 @@ Add each city on Places. Weather and headlines print in that order. “Headlines
 
 ![Places](docs/images/places.png)
 
-Today shows the slip that the next print will send, and a Print now button. Tomorrow is a preview of the next local day. Nothing is sent to the printer from Tomorrow. Weather and calendar on that page are tomorrow’s. Headlines are the current feed.
+Today shows the slip that the next morning print will send, and a Print now button. Tomorrow previews the next local day and can print that copy. Printing it does not clear notes or print to-do cards, and it does not replace the morning slip. Weather and calendar on that page are tomorrow’s. Headlines are the current feed.
 
 ![Today](docs/images/today.png)
 
@@ -86,7 +89,7 @@ Calendar is optional. These are the Cloud steps. The pictures in this guide stay
 3. Create an OAuth client of type Web application.
 4. Add the redirect URI `APP_URL/api/calendar/callback`. With the example address that is `http://192.168.1.20:3000/api/calendar/callback`.
 5. Put the client id and secret in `.env` as `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
-6. Restart the container: `docker compose up -d`.
+6. Restart so the container picks up `.env`: `docker compose up -d`.
 7. Open Calendar and connect. The scope is calendar read-only.
 8. Pick one calendar. The slip lists that calendar’s events for the local day.
 

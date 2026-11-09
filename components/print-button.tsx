@@ -3,7 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function PrintButton({ disabled }: { disabled?: boolean }) {
+export function PrintButton({
+  disabled,
+  endpoint = "/api/print",
+  label = "Print now",
+}: {
+  disabled?: boolean;
+  endpoint?: string;
+  label?: string;
+}) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
@@ -19,7 +27,7 @@ export function PrintButton({ disabled }: { disabled?: boolean }) {
           setPending(true);
           setError("");
           setDone(false);
-          const response = await fetch("/api/print", { method: "POST" });
+          const response = await fetch(endpoint, { method: "POST" });
           const body = (await response.json().catch(() => ({}))) as { error?: string };
           setPending(false);
           if (!response.ok) {
@@ -30,7 +38,7 @@ export function PrintButton({ disabled }: { disabled?: boolean }) {
           router.refresh();
         }}
       >
-        {pending ? "Printing" : "Print now"}
+        {pending ? "Printing" : label}
       </button>
       {error ? (
         <p className="error mt-3" role="alert">

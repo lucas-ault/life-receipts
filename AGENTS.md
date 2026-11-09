@@ -8,10 +8,11 @@ Docker Compose is the way to run it. `./data` is bind-mounted, so the database a
 
 ```bash
 cp .env.example .env
-docker compose up --build -d
+docker compose pull
+docker compose up -d
 ```
 
-`APP_URL` should be this computer’s LAN address when phones need to open the slip. `npm run dev` is for working on the code. Stop the container first. Both want port 3000.
+The published image is `ghcr.io/lucas-ault/life-receipts`. `docker compose up --build -d` builds from this checkout. `APP_URL` should be this computer’s LAN address when phones need to open the slip. `npm run dev` is for working on the code. Stop the container first. Both want port 3000.
 
 `npm test` runs Vitest. `npx tsc --noEmit` typechecks. Do not add `"type": "module"` to `package.json`.
 

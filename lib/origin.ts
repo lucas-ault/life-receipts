@@ -38,6 +38,25 @@ export function lanAddresses() {
   return addresses;
 }
 
+export function browserOrigin(requestUrl: string, appUrl: string | undefined) {
+  const configured = (appUrl ?? "").trim();
+  if (configured) {
+    try {
+      const url = new URL(configured);
+      if (url.hostname !== "0.0.0.0" && url.hostname !== "::") return url.origin;
+    } catch {
+      // APP_URL is not a usable origin. Fall back to the request.
+    }
+  }
+  try {
+    const request = new URL(requestUrl);
+    if (request.hostname === "0.0.0.0" || request.hostname === "::") request.hostname = "localhost";
+    return request.origin;
+  } catch {
+    return "http://localhost:3000";
+  }
+}
+
 export function householdOrigin() {
   return phoneOrigin(process.env.APP_URL, lanAddresses());
 }

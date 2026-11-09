@@ -32,7 +32,8 @@ The dashboard publishes the route. This repo does not keep a local tunnel config
 From this directory, with `.env` filled in:
 
 ```bash
-docker compose --profile tunnel up --build
+docker compose --profile tunnel pull
+docker compose --profile tunnel up -d
 ```
 
 The `cloudflared` service is on the Compose profile `tunnel`, so a plain `docker compose up` does not need a token and does not start the connector. The app service is named `life-receipts`. The connector joins the same Compose network and uses the service name above.

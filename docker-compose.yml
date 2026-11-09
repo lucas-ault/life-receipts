@@ -3,6 +3,7 @@
 # Do not switch this to a named volume: docker compose down -v would delete it.
 services:
   life-receipts:
+    image: ghcr.io/lucas-ault/life-receipts:latest
     build: .
     ports:
       - "3000:3000"

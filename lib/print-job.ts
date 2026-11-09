@@ -74,6 +74,28 @@ async function sendTodoCard(settings: Settings, todo: Todo) {
   await sendRaw(settings.printerHost, settings.printerPort, rgbaToEscPos(rendered.rgba, rendered.width, rendered.height));
 }
 
+export async function printTomorrowSlip() {
+  return withPrinter(async (settings) => {
+    const when = addLocalDays(new Date(), settings.timezone, 1);
+    const startedAt = Date.now();
+    const jobId = insertJob({
+      dateKey: dateKey(when, settings.timezone),
+      status: "running",
+      trigger: "tomorrow",
+      startedAt,
+    });
+    try {
+      const { document } = await buildReceipt(when);
+      const rendered = renderReceipt(document, paperDots(settings.paperWidth));
+      await sendRaw(settings.printerHost, settings.printerPort, rgbaToEscPos(rendered.rgba, rendered.width, rendered.height));
+      finishJob(jobId, "success");
+    } catch (error) {
+      finishJob(jobId, "failed", error instanceof Error ? error.message : "The print failed.");
+      throw error;
+    }
+  });
+}
+
 export async function printTestSlip() {
   return withPrinter(async (settings) => {
     const startedAt = Date.now();

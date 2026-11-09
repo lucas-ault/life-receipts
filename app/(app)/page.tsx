@@ -59,7 +59,14 @@ function describeJob(
   if (!job) return "No slip printed yet.";
   if (job.status === "running" || !job.finishedAt) return "A print is running.";
   const when = formatClock(new Date(job.finishedAt), timeZone);
-  const kind = job.trigger === "test" ? "Test print" : job.trigger === "manual" ? "Print" : "Morning print";
+  const kind =
+    job.trigger === "test"
+      ? "Test print"
+      : job.trigger === "tomorrow"
+        ? "Tomorrow’s slip"
+        : job.trigger === "manual"
+          ? "Print"
+          : "Morning print";
   if (job.status === "success") return `${kind} succeeded at ${when}.`;
   return `${kind} failed at ${when}. ${job.error ?? ""}`.trim();
 }
